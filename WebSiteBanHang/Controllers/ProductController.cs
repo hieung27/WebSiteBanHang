@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.Repositories;
@@ -27,6 +28,7 @@ namespace WebSiteBanHang.Controllers
         }
 
         // Display form to add a new product
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryRepository.GetAllAsync();
@@ -36,6 +38,7 @@ namespace WebSiteBanHang.Controllers
 
         // Handle adding a new product
         [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Add(Product product, IFormFile imageFile)
         {
             if (ModelState.IsValid)
